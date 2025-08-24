@@ -51,3 +51,21 @@ export async function getCallStatusController(req, res) {
     res.status(500).json({ success: false, error: err.message });
   }
 }
+
+// in callsController.js
+export async function postCallWebhook(req, res) {
+  try {
+    const { conversation_id, status, metadata } = req.body;
+
+    console.log("Post-call webhook received:", req.body);
+
+    // Optionally: fetch full transcript from ElevenLabs here using conversation_id
+    // then forward to your platform
+    // await getCallStatus(batchId, platformCallId);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error handling post-call webhook:", err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+}

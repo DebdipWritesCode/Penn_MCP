@@ -1,5 +1,5 @@
 import express from "express";
-import { scheduleCallController, callWebhook, getCallStatusController } from "../controllers/callsController.js";
+import { scheduleCallController, callWebhook, getCallStatusController, postCallWebhook } from "../controllers/callsController.js";
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ const router = express.Router();
 
 // // Retrieve call status
 // router.get("/:callId/status", getCallStatus);
+
+router.post("/webhook/post-call", postCallWebhook);
 
 export default router;
