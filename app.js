@@ -1,3 +1,4 @@
+import 'dotenv/config'; // Automatically loads .env
 import express from "express";
 import bodyParser from "body-parser";
 import callsRoutes from "./routes/callsRoutes.js";
@@ -13,5 +14,5 @@ app.get("/", (req, res) => {
   res.send("MCP Server running 🚀");
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`MCP Server running on port ${PORT}`));

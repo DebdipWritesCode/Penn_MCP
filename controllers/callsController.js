@@ -1,13 +1,13 @@
-import elevenLabsService from "../services/elevenLabsService.js";
+import { scheduleCall, getCallStatus } from "../services/elevenLabsService.js"
 import platformService from "../services/platformService.js";
 
 // Schedule a call
-export async function scheduleCall(req, res) {
+export async function scheduleCallController(req, res) {
   try {
     const { clinic_id, user_id, agent_id, phone_number, scheduled_time } = req.body;
 
     // Call ElevenLabs API
-    const response = await elevenLabsService.scheduleCall({
+    const response = await scheduleCall({
       clinic_id,
       user_id,
       agent_id,
@@ -42,10 +42,10 @@ export async function callWebhook(req, res) {
 }
 
 // Get call status
-export async function getCallStatus(req, res) {
+export async function getCallStatusController(req, res) {
   try {
     const callId = req.params.callId;
-    const status = await elevenLabsService.getCallStatus(callId);
+    const status = await getCallStatus(callId);
     res.json({ success: true, status });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

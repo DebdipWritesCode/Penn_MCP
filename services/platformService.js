@@ -2,15 +2,23 @@ import axios from "axios";
 
 const PLATFORM_URL = process.env.PLATFORM_URL;
 
-async function sendCallResults({ call_id, status, transcript, clinic_id, user_id }) {
+/**
+ * Send outbound call results to the platform in the expected webhook format
+ */
+async function sendCallResults({ id, status, conversation }) {
   try {
-    const res = await axios.post(`${PLATFORM_URL}/api/calls/results`, {
-      call_id,
-      status,
-      transcript,
-      clinic_id,
-      user_id
-    });
+    const payload = { id, status };
+
+    // Include conversation only if it's provided and non-empty
+    if (conversation && conversation.length > 0) {
+      payload.conversation = conversation.map(msg => ({
+        from: msg.from, // "AI" or "Patient"
+        text: msg.text,
+        timestamp: new Date(msg.timestamp).toISOString() // ensure ISO 8601
+      }));
+    }
+
+    const res = await axios.post(`${PLATFORM_URL}/api/outbound-calls/webhook`, payload);
 
     return res.data;
   } catch (err) {
